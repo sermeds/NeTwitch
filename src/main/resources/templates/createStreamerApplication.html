@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title},_)}">
+    <meta charset="UTF-8">
+    <title>Заявка стримера</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${user})}"></div>
+<div class="container">
+    <div class="application-form">
+        <h2>Заявка для становления стримером</h2>
+        <form action="/application" method="post">
+            <input type="hidden" name="user" th:value="${user.id}">
+            <div class="form-group">
+                <label for="name">Имя</label>
+                <input type="text" id="name" name="name" placeholder="Введите ваше имя" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Возраст</label>
+                <input type="number" min="12" id="age" name="age" placeholder="Введите ваш возраст" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Введите ваш email" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Подробнее о себе</label>
+                <textarea id="description" name="description"
+                          placeholder="Расскажите о вашем опыте стриминга, умениях и т.д." required></textarea>
+            </div>
+            <th:block th:replace="~{fragments/csrf :: csrf}"/>
+            <th:block th:if="${!exist}">
+                <button class="submit-button" type="submit">Отправить</button>
+            </th:block>
+            <th:block th:if="${exist}">
+                <p class="application-status rejected">Ваша заявка на рассмотрении или уже принята.</p>
+                <button class="submit-button" type="submit" disabled>Отправить</button>
+            </th:block>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title}, ~{::link})}">
+    <meta charset="UTF-8">
+    <title>Аккаунт</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/profile.css">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${currentUser})}"></div>
+<div class="container">
+    <div class="profile-card">
+        <img src="https://via.placeholder.com/150x150" alt="Иконка профиля" class="profile-icon">
+        <h2 class="profile-name" th:text="${user.name}"></h2>
+        <p class="subscriber-count" th:text="'Количество подписчиков: ' + ${subsCount}"></p>
+
+        <th:block th:if="${!isCurrentUser}">
+            <div th:if="${!isSubscriber}" class="subscribe-section">
+                <a th:href="@{/subscribe/{id}(id = ${user.id})}" class="subscribe-btn">Подписаться</a>
+            </div>
+            <div th:unless="${!isSubscriber}" class="subscribe-section">
+                <a th:href="@{/unsubscribe/{id}(id = ${user.id})}" class="subscribe-btn">Отписаться</a>
+            </div>
+        </th:block>
+
+        <th:block th:each="stream : ${active}">
+            <div th:replace="~{fragments/streamCard :: profileStreamCard(${stream})}"></div>
+        </th:block>
+        <h4 class="past-streams">Прошлые стримы</h4>
+        <ul>
+            <th:block th:each="stream : ${streams}">
+                <li><div th:replace="~{fragments/streamCard :: profileStreamCard(${stream})}"></div></li>
+            </th:block>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+#start {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+}
+.stream-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    font-weight: bold;
+    color: #6c63ff;
+}
+.form-group input[type="text"],
+.form-group input[type="url"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #dddddd;
+}
+.form-group textarea {
+    height: 120px;
+}
+.start-stream-btn {
+    background-color: #6c63ff;
+    color: #ffffff;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.start-stream-btn:hover {
+    background-color: #5149d1;
+}
+
+.end-stream-form {
+    margin-top: 20px;
+}
+

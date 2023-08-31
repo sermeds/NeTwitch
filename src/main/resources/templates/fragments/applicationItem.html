@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="applicationItem(app)">
+    <div class="application-item">
+        <span th:text="'Имя:' + ${app.name}"></span>
+        <th:block th:if="${app.isApproved}"><span class="status status-approved">Принята</span></th:block>
+        <th:block th:if="${app.isRejected}"><span class="status status-rejected">Отклонена</span></th:block>
+        <th:block th:if="${app.isPending}"><span class="status status-pending">Ожидание</span></th:block>
+        <button class="show-details-button" th:onclick="@{showApplicationDetails({id})(id = ${app.id})}">Подробнее
+        </button>
+    </div>
+    <div th:id="'application-details-' + ${app.id}" class="application-details" style="display: none">
+        <p th:text="'Возраст:' + ${app.age}"></p>
+        <p th:text="'Email:' + ${app.email}"></p>
+        <p th:text="'Подробности:' + ${app.description}"></p>
+        <div th:if="${app.isPending}" class="actions-forms">
+            <form action="/approve" method="post">
+                <th:block th:replace="~{fragments/csrf :: csrf}"/>
+                <input type="hidden" name="application" th:value="${app.id}">
+                <button type="submit" class="approve-button">Принять</button>
+            </form>
+            <form action="/reject" method="post">
+                <th:block th:replace="~{fragments/csrf :: csrf}"/>
+                <input type="hidden" name="application" th:value="${app.id}">
+                <button type="submit" class="reject-button">Отклонить</button>
+            </form>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

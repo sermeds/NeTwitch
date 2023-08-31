@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title}, _)}">
+    <meta charset="UTF-8">
+    <title>Список заявок</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${user})}"></div>
+<div class="container">
+    <div class="application-page">
+        <h2>Заявки на стримера</h2>
+        <div class="application-list">
+            <th:block th:each="pend : ${pending}">
+                <div th:replace="~{fragments/applicationItem :: applicationItem(${pend})}"></div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="application-page">
+        <h2>Проверенные заявки</h2>
+        <div class="application-list">
+            <th:block th:each="app : ${applications}">
+                <div th:replace="~{fragments/applicationItem :: applicationItem(${app})}"></div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showApplicationDetails(applicationId) {
+        const applicationDetails = document.getElementById(`application-details-${applicationId}`);
+        if (applicationDetails.style.display === "none") {
+            applicationDetails.style.display = "block";
+        } else {
+            applicationDetails.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

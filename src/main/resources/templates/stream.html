@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title},_)}">
+    <meta charset="UTF-8">
+    <title>Стрим</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${user})}"></div>
+<div class="stream-page">
+    <div class="stream-container">
+        <div class="stream-video">
+            <th:block th:switch="${stream.id % 10}">
+
+                <iframe th:case="1" src="https://player.twitch.tv/?channel=relaxbeats&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+                <iframe th:case="2" src="https://player.twitch.tv/?channel=bellaramatv&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+                <iframe th:case="3"  src="https://player.twitch.tv/?channel=yogiibutt&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+                <iframe th:case="4"  src="https://player.twitch.tv/?channel=asianbunnyx&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+                <iframe th:case="5"  src="https://player.twitch.tv/?channel=onyjet&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+                <iframe th:case="6"  src="https://player.twitch.tv/?channel=yoga_elastic&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+                <iframe th:case="7"  src="https://player.twitch.tv/?channel=onybox&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+                <iframe th:case="8"  src="https://player.twitch.tv/?channel=cheushanti&parent=localhost" frameborder="0" allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+
+                <iframe th:case="*" src="https://player.twitch.tv/?channel=flexingseal&parent=localhost" frameborder="0"
+                        allowfullscreen="true" scrolling="no" height="400" width="710"></iframe>
+            </th:block>
+<!--                        <img src="https://via.placeholder.com/800x400" alt="Stream Video" style="width: 100%;">-->
+
+        </div>
+        <div class="stream-chat">
+            <ul class="donation-list">
+                <th:block th:each="donate : ${donations}">
+                    <div th:replace="~{fragments/streamCard :: donationItem(${donate})}"></div>
+                </th:block>
+            </ul>
+        </div>
+
+        <form th:if="${isStreamer and isActive}" th:action="@{/end/{id}(id = ${stream.id})}" method="post"
+              class="end-stream-form">
+            <th:block th:replace="~{fragments/csrf :: csrf}"/>
+            <button class="btn btn-danger" type="submit">End Stream</button>
+        </form>
+    </div>
+
+    <div class="stream-author">
+        <a th:href="@{/profile/{id}(id = ${streamer.id})}"><img src="/static/img/user-icon.svg" alt="Иконка стримера"></a>
+        <a th:href="@{/profile/{id}(id = ${streamer.id})}"><h4 th:text="${streamer.name}"></h4></a>
+    </div>
+
+    <div class="stream-info">
+        <h2 th:text="${stream.title}"></h2>
+        <p th:text="${stream.category}"></p>
+        <p th:if="${isActive}" class="stream-status active">Активный</p>
+        <p th:unless="${isActive}" class="stream-status inactive">Неактивный</p>
+        <button class="donate-button" th:if="${!isStreamer}"  onclick="openDonationPopup()">Донат</button>
+    </div>
+
+    <div id="donationPopup" class="donation-popup">
+        <div class="donation-popup-content">
+            <span class="close" onclick="closeDonationPopup()">&times;</span>
+            <form action="/donate" method="post">
+                <input type="hidden" name="receiver" th:value="${streamer.id}" />
+                <input type="hidden" name="stream" th:value="${stream.id}" />
+                <input type="text" name="amount" placeholder="Сумма" />
+                <input type="text" name="message" placeholder="Сообщение" />
+                <th:block th:replace="~{fragments/csrf :: csrf}"/>
+                <button type="submit">Задонатить</button>
+            </form>
+        </div>
+    </div>
+
+    <p>Дополнительная информация о стриме доступна здесь... (Недоступно по техническим причинам)</p>
+</div>
+<script>
+    function scrollDonationList() {
+        const donationList = document.querySelector('.donation-list');
+        donationList.scrollTop = donationList.scrollHeight;
+    }
+
+
+    window.addEventListener('load', function() {
+        scrollDonationList();
+    });
+
+    function openDonationPopup() {
+        document.getElementById("donationPopup").style.display = "flex";
+    }
+
+    function closeDonationPopup() {
+        document.getElementById("donationPopup").style.display = "none";
+    }
+</script>
+</body>
+</html>

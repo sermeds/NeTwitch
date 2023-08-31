@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title}, _)}">
+    <meta charset="UTF-8">
+    <title>Lol</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <link rel="stylesheet" type="text/css" href="/static/css/style.css">-->
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${user})}"></div>
+<div class="hero-section">
+    <div class="container">
+        <h1>Добро пожаловать на Stream Platform</h1>
+        <p>Откройте для себя и смотрите удивительные прямые трансляции.</p>
+        <th:block sec:authorize="isAuthenticated()">
+            <a th:if="${isStreamer}" href="/start" class="stream-button">Запустить стрим</a>
+            <a th:if="${!isStreamer}" href="/application" class="stream-button">Стать стримером</a>
+        </th:block>
+        <th:block sec:authorize="!isAuthenticated()">
+            <a href="/login" class="stream-button">Войти</a>
+        </th:block>
+    </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <th:block th:each="stream : ${streams}">
+            <div th:replace="~{fragments/streamCard :: streamCard(${stream})}"></div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

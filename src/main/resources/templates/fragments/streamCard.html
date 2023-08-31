@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-md-4 d-flex justify-content-center" th:fragment="streamCard(stream)">
+    <div class="stream-card">
+        <a th:href="@{/live/{id}(id = ${stream.id})}"><img src="https://via.placeholder.com/300x200" alt="Изображение стрима" class="card-img-top"></a>
+        <div class="card-body">
+            <h5 class="stream-title" th:text="${stream.title}">Название стрима</h5>
+            <div class="streamer-info">
+                <a th:href="@{/profile/{id}(id = ${stream.streamer.id})}">
+                    <img src="https://via.placeholder.com/30x30" alt="Иконка стримера">
+                </a>
+                <a class="streamer-name" th:href="@{/profile/{id}(id = ${stream.streamer.id})}" th:text="${stream.streamer.name}"/>
+            </div>
+            <p class="stream-genre" th:text="${stream.category}">Жанр</p>
+            <p th:if="${stream.active}" class="stream-status active">Активный</p>
+            <p th:unless="${stream.active}" class="stream-status inactive">Неактивный</p>
+        </div>
+    </div>
+</div>
+
+<div class="stream-card mt-4" th:fragment="profileStreamCard(stream)">
+    <a th:href="@{/live/{id}(id = ${stream.id})}"><img src="https://via.placeholder.com/400x200" alt="Изображение стрима" class="card-img-top"></a>
+    <div class="card-body">
+        <h5 class="stream-title" th:text="${stream.title}">Название стрима</h5>
+        <p class="stream-genre" th:text="${stream.category}">Жанр</p>
+        <p th:if="${stream.active}" class="stream-status active">Активный</p>
+        <p th:unless="${stream.active}" class="stream-status inactive">Неактивный</p>
+    </div>
+</div>
+
+<li class="donation-item" th:fragment="donationItem(donate)">
+    <div class="donation-info">
+        <span class="donation-amount" th:text="${donate.amount} + ' токенов'">$10</span>
+        <span class="donation-message" th:text="${donate.message}">Спасибо за отличный контент!</span>
+    </div>
+    <div class="donation-info">
+        <span class="donation-name" th:text="${donate.sender.name}">John Doe</span>
+    </div>
+</li>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title},_)}">
+    <meta charset="UTF-8">
+    <title>Категории</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${user})}"></div>
+<div class="container mt-4">
+    <a th:href="@{/category/subs}" class="category-title">Подписки</a>
+    <div th:if="${!#arrays.isEmpty(subs)}" class="row mt-3">
+        <th:block th:each="stream, streamIndex : ${subs}"  th:if="${streamIndex.index < 3}">
+            <div th:if="${streamIndex.index < 3}" th:replace="~{fragments/streamCard :: streamCard(${stream})}"></div>
+        </th:block>
+    </div>
+    <th:block th:each="cat : ${categories}" >
+        <th:block th:if="${!#arrays.isEmpty(cat.value)}">
+            <a th:href="@{/category/{type}(type = ${cat.key.getId()})}" class="category-title"
+              th:text="${cat.key.getTitle()}">Sports</a>
+            <div class="row mt-3">
+                <th:block th:each="stream, streamIndex : ${cat.value}" th:if="${streamIndex.index < 3}">
+                    <div th:replace="~{fragments/streamCard :: streamCard(${stream})}"></div>
+                </th:block>
+            </div>
+        </th:block>
+    </th:block>
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title}, _)}">
+    <meta charset="UTF-8">
+    <title th:text="${category}">Lol</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${user})}"></div>
+    <div class="container text-center mt-5">
+        <h1 th:text="${category}"></h1>
+    </div>
+<div class="container mt-5">
+    <div class="row">
+        <th:block th:each="stream : ${streams}">
+            <div th:replace="~{fragments/streamCard :: streamCard(${stream})}"></div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

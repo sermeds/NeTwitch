@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/header :: common_header(~{::title}, _)}">
+    <meta charset="UTF-8">
+    <title>Пополнение баланса</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header(${user})}"></div>
+<div class="replenishment-page">
+    <div class="replenishment-form">
+        <h2 class="form-title">Пополнение баланса</h2>
+        <form action="updateBalance" method="post">
+            <div class="form-group">
+                <label for="amount">Сумма:</label>
+                <input type="number" min="1" id="amount" name="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="card-number">Номер карты:</label>
+                <input type="text" id="card-number" name="card-number" required>
+            </div>
+            <div class="form-group">
+                <label for="expiry-date">Срок действия:</label>
+                <input type="text" id="expiry-date" name="expiry-date" required>
+            </div>
+            <div class="form-group">
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required>
+            </div>
+            <div class="form-group">
+                <th:block th:replace="~{fragments/csrf :: csrf}"/>
+                <button type="submit">Пополнить</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
