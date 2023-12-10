@@ -15,7 +15,7 @@ import java.util.*;
 @Entity
 @Data
 @Table(name = "users")
-@ToString(exclude = {"subscribers", "subscriptions"})
+@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(of = {"id"})
 public class User implements UserDetails {
     @Id
@@ -25,8 +25,10 @@ public class User implements UserDetails {
     @Column(name = "login", unique = true)
     private String login;
     @Column(name = "name")
+    @ToString.Include
     private String name;
     @Column(name = "active")
+    @ToString.Include
     private boolean active;
     @Column(name = "password", length = 1000)
     private String password;
@@ -51,6 +53,7 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "channel_id")}
     )
     private Set<User> subscriptions = new HashSet<>();
+    @ToString.Include
     private LocalDateTime dateOfCreated;
 
     @PrePersist

@@ -108,6 +108,9 @@ public class StreamService {
         return streamRepo.findFirstByActiveAndCategory(true, category);
     }
 
+//    public Stream getStreamById(Integer id) {
+//        return streamRepo.findByIdAndIdNotNulll(id);
+//    }
 
 }
 

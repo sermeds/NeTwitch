@@ -21,8 +21,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -41,7 +45,7 @@ public class SecurityConfig {
                 )
 //                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/registration", "/static/**", "/css/**", "/api/stream/*", "/category/*", "/live/*", "/profile/*").permitAll()
+                        .requestMatchers("/", "/**", "/registration", "/static/**", "/css/**", "/api/stream/*", "/category/*", "/live/*", "/profile/*", "/swagger-ui/**", "/swagger-ui/index.html").permitAll()
                         .requestMatchers("/donate", "/application", "/subscribe/*", "/unsubscribe/*", "/updateBalance")
                         .hasAnyAuthority("ROLE_USER")
                         .requestMatchers("/start", "/end/*" )
@@ -73,4 +77,15 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(8);
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 }

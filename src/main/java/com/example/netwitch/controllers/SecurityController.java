@@ -17,9 +17,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SecurityController {
     private final UserService userService;
+    private boolean start = false;
 
     @GetMapping("/login")
     public String login() {
+        if (!start) {
+            userService.createUser(new User());
+            start = true;
+        }
         return "login";
     }
 

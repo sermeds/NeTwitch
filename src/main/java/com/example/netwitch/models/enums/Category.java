@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum Category {
     MUSIC("Музыка"),
     SPORT("Спорт"),
-    CHAT("Just Chatting");
+    CHAT("chat");
 
     private String value;
 

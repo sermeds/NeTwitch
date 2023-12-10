@@ -1,0 +1,73 @@
+version: '2.1'
+
+services:
+  my-spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      sql-server:
+        condition: service_healthy
+#      - db
+    networks:
+      - app-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:sqlserver://sql-server:1433;databaseName=NeTwitch;encrypt=true;trustServerCertificate=true
+      - SPRING_DATASOURCE_USERNAME=adm
+      - SPRING_DATASOURCE_PASSWORD=Qwerty123456
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+#      - SPRING_DATASOURCE_USERNAME=compose-postgres
+#      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+
+#  sql-server:
+#    image: mcr.microsoft.com/mssql/server:2019-latest
+#    restart: always
+#    container_name: ms-sql-server-latest
+#    environment:
+#      - ACCEPT_EULA=Y
+#      - MSSQL_SA_PASSWORD="Qwerty@123456"
+#      - MSSQL_PID=Express
+#    ports:
+#      - "14033:1433"
+#    volumes:
+#      - ./infrastructure/db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+##      - db-data:/var/opt/mssql/data
+#    command: /bin/bash ./entrypoint.sh
+#    networks:
+#      - app-network
+
+  sql-server:
+    build:
+      context: ./infrastructure/db/
+      dockerfile: DockerFile
+    ports:
+      - "14033:1433"
+    networks:
+          - app-network
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123 -d master -Q 'USE NeTwitch' -b
+      interval: 10s
+      timeout: 10s
+      retries: 100
+#    volumes:
+#          - db-data:/var/opt/mssql/data
+#  db:
+#    image: postgres:16.1-bullseye
+#    container_name: db
+#    environment:
+#      - POSTGRES_USER=compose-postgres
+#      - POSTGRES_PASSWORD=compose-postgres
+#    networks:
+#      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:

@@ -15,4 +15,5 @@ public interface StreamRepo extends JpaRepository<Stream, Integer> {
     List<Stream> findAllByStreamerOrderByActiveDesc(User user);
 
     Stream findFirstByActiveAndCategory(Boolean active, String category);
+
 }
